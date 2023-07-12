@@ -9,7 +9,7 @@
 <body>
 	<h1>RemoveBoard</h1>
 	<c:set var="b" value="${board}"></c:set>
-	<form action="${pageContext.request.contextPath}/board/removeBoard" method="post">
+	<form action="/board/removeBoard" method="post">
 	<input type="hidden" name="boardNo" value="${b.boardNo}">
 		<table>
 			<tr>

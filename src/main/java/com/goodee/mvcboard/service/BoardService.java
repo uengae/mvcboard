@@ -32,7 +32,7 @@ public class BoardService {
 	public Board getBoardOne(Board board) {
 		return boardMapper.selectBoardOne(board);
 	}
-	public Map<String, Object> getBoardList(int currentPage, int rowPerPage){
+	public Map<String, Object> getBoardList(int currentPage, int rowPerPage, String localName){
 		
 //		service layer 역활1 : controller가 넘겨준 매개값을 dao의 매개값에 맞게 가공
 		int beginRow = (currentPage - 1) * rowPerPage;
@@ -43,12 +43,14 @@ public class BoardService {
 		Map<String, Object> paramMap = new HashMap<String, Object>();
 		paramMap.put("beginRow", beginRow);
 		paramMap.put("rowPerPage", rowPerPage);
+		paramMap.put("localName", localName);
+		
 //		반환값 2
 		List<Board> boardList = boardMapper.selectBoardListByPage(paramMap);
 		
 //		service layer 역활2 : dao에서 반환받은 값을 가공하여 controller에 반환
 //		반환값 3
-		int boardCount = boardMapper.selectBoardCount();
+		int boardCount = boardMapper.selectBoardCount(localName);
 		int lastPage = (int)Math.ceil((double)boardCount / rowPerPage);
 		
 //		결과값

@@ -26,5 +26,5 @@ public interface BoardMapper {
 	List<Board> selectBoardListByPage(Map<String, Object> map);
 	
 //	전체행의 수
-	int selectBoardCount();
+	int selectBoardCount(String localName);
 }

@@ -17,6 +17,11 @@
 			member_id memberId,
 			createdate
 		FROM board
+		<where>
+			<if test="localName != null &amp;&amp; localName != ''"><!-- & : &amp;  -->
+				local_name = #{localName}
+			</if>
+		</where>
 		ORDER BY createdate DESC
 		LIMIT #{beginRow}, #{rowPerPage}
 	</select>
@@ -39,6 +44,11 @@
 	<select id="selectBoardCount" resultType="int">
 		SELECT COUNT(*)
 		FROM board
+		<where>
+			<if test="localName != null &amp;&amp; localName != ''"><!-- & : &amp;  -->
+				local_name = #{localName}
+			</if>
+		</where>
 	</select>
 	
 	<insert id="insertBoard" parameterType="com.goodee.mvcboard.vo.Board">

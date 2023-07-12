@@ -9,8 +9,8 @@
 <body>
 	<c:set var="b" value="${board}"></c:set>
 	<h1>BoardOne</h1>
-	<a href="${pageContext.request.contextPath}/board/modifyBoard?boardNo=${b.boardNo}">수정</a>
-	<a href="${pageContext.request.contextPath}/board/removeBoard?boardNo=${b.boardNo}">삭제</a>
+	<a href="/board/modifyBoard?boardNo=${b.boardNo}">수정</a>
+	<a href="/board/removeBoard?boardNo=${b.boardNo}">삭제</a>
 	<table>
 		<tr>
 			<th>localName</th>

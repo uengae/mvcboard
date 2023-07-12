@@ -13,7 +13,7 @@
 	</div>
 	<div>
 		<c:forEach var="m" items="${localNameList}">
-			<a href="">${m.localName}(${m.cnt})</a>
+			<a href="/board/boardList?localName=${m.localName}">${m.localName}(${m.cnt})</a>
 		</c:forEach>
 	</div>
 	
@@ -38,11 +38,11 @@
 		</c:forEach>
 	</table>
 	<c:if test="${currentPage > 1}">
-		<a href="/board/boardList?currentPage=${currentPage - 1}">이전</a>
+		<a href="/board/boardList?currentPage=${currentPage - 1}&localName=${localName}">이전</a>
 	</c:if>
 	&nbsp;<span>${currentPage}</span>&nbsp;
 	<c:if test="${currentPage < lastPage}">
-		<a href="/board/boardList?currentPage=${currentPage + 1}">다음</a>
+		<a href="/board/boardList?currentPage=${currentPage + 1}&localName=${localName}">다음</a>
 	</c:if>
 </body>
 </html>

@@ -56,7 +56,7 @@ public class BoardController {
 //	게시글 삭제
 	@GetMapping("/board/removeBoard")
 	public String removeBoard(Model model,
-							@RequestParam(value = "boardNo") int boardNo) {
+							@RequestParam(name = "boardNo") int boardNo) {
 //		boardNo 셋팅
 		Board board = new Board();
 		board.setBoardNo(boardNo);
@@ -69,8 +69,8 @@ public class BoardController {
 	
 	@PostMapping("/board/removeBoard")
 	public String removeBoard(
-							@RequestParam(value = "boardNo") int boardNo,
-							@RequestParam(value = "memberId") String memberId) {
+							@RequestParam(name = "boardNo") int boardNo,
+							@RequestParam(name = "memberId") String memberId) {
 //		삭제할 데이터 셋팅
 		Board board = new Board();
 		board.setBoardNo(boardNo);
@@ -83,7 +83,7 @@ public class BoardController {
 //	게시글 수정
 	@GetMapping("/board/modifyBoard")
 	public String modifyBoard(Model model,
-							@RequestParam(value = "boardNo") int boardNo) {
+							@RequestParam(name = "boardNo") int boardNo) {
 //		boardNo 셋팅
 		Board board = new Board();
 		board.setBoardNo(boardNo);
@@ -96,11 +96,11 @@ public class BoardController {
 	
 	@PostMapping("/board/modifyBoard")
 	public String modifyBoard(
-							@RequestParam(value = "boardNo") int boardNo,
-							@RequestParam(value = "localName") String localName,
-							@RequestParam(value = "boardTitle") String boardTitle,
-							@RequestParam(value = "boardContent") String boardContent,
-							@RequestParam(value = "memberId") String memberId
+							@RequestParam(name = "boardNo") int boardNo,
+							@RequestParam(name = "localName") String localName,
+							@RequestParam(name = "boardTitle") String boardTitle,
+							@RequestParam(name = "boardContent") String boardContent,
+							@RequestParam(name = "memberId") String memberId
 							) {
 //		수정된 데이터 셋팅
 		Board board = new Board();
@@ -118,7 +118,7 @@ public class BoardController {
 //	게시글 하나 출력
 	@GetMapping("/board/boardOne")
 	public String getBoardOne(Model model,
-							@RequestParam(value = "boardNo") int boardNo) {
+							@RequestParam(name = "boardNo") int boardNo) {
 //		boardNo 셋팅
 		Board board = new Board();
 		board.setBoardNo(boardNo);
@@ -131,10 +131,15 @@ public class BoardController {
 //	게시클 리스트 출력
 	@GetMapping("/board/boardList")
 	public String boardList(Model model,
-							@RequestParam(value = "currentPage", defaultValue = "1") int currentPage,
-							@RequestParam(value = "rowPerPage", defaultValue = "10") int rowPerPage
+							@RequestParam(name = "currentPage", defaultValue = "1") int currentPage,
+							@RequestParam(name = "rowPerPage", defaultValue = "10") int rowPerPage,
+							@RequestParam(name = "localName", required = false) String localName
 							) {
-		Map<String, Object> resultMap = boardService.getBoardList(currentPage, rowPerPage);
+		
+//		log.debug("localName : " + localName);
+		System.out.println("localName : " + localName);
+		
+		Map<String, Object> resultMap = boardService.getBoardList(currentPage, rowPerPage, localName);
 		
 //		view로 넘어갈때는 다시 분리해서
 		model.addAttribute("localNameList", resultMap.get("localNameList"));
@@ -142,7 +147,7 @@ public class BoardController {
 		model.addAttribute("lastPage", resultMap.get("lastPage"));
 		
 		model.addAttribute("currentPage", currentPage);
-		
+ 		model.addAttribute("localName", localName);
 		System.out.println("sysout test " + currentPage);
 		log.debug("debug test " + currentPage);
 		return "/board/boardList";

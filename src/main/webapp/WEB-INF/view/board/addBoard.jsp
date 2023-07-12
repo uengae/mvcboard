@@ -8,7 +8,7 @@
 </head>
 <body>
 	<h1>AddBoard</h1>
-	<form action="${pageContext.request.contextPath}/board/addBoard" method="post">
+	<form action="/board/addBoard" method="post">
 		<table>
 			<tr>
 				<th>localName</th>
