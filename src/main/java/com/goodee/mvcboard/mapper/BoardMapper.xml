@@ -52,6 +52,9 @@
 	</select>
 	
 	<insert id="insertBoard" parameterType="com.goodee.mvcboard.vo.Board">
+		<selectKey order="AFTER" keyProperty="boardNo" resultType="int">
+			SELECT last_insert_id()
+		</selectKey>
 		INSERT INTO board(
 			local_name,
 			board_title,

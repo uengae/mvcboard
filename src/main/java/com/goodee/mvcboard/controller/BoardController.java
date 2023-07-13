@@ -1,6 +1,9 @@
 package com.goodee.mvcboard.controller;
 
+import java.util.List;
 import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -11,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.goodee.mvcboard.service.BoardService;
 import com.goodee.mvcboard.vo.Board;
+import com.goodee.mvcboard.vo.Boardfile;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -47,19 +51,17 @@ public class BoardController {
 	}
 
 	@PostMapping("/board/addBoard")
-	public String addBoard(Board board) {
-		int row = boardService.addBoard(board);
+//	매개값으로 request객체를 받는다 <- request api 직접호출하귀위함
+	public String addBoard(HttpServletRequest request,Board board) { 
+		String path = request.getServletContext().getRealPath("/upload/");
+		int row = boardService.addBoard(board, path);
 		log.debug("addBoard row : " + row);
 		return "redirect:/board/boardList";
 	}
 	
 //	게시글 삭제
 	@GetMapping("/board/removeBoard")
-	public String removeBoard(Model model,
-							@RequestParam(name = "boardNo") int boardNo) {
-//		boardNo 셋팅
-		Board board = new Board();
-		board.setBoardNo(boardNo);
+	public String removeBoard(Model model, Board board) {
 		board = boardService.getBoardOne(board);
 		
 //		출력할 board 저장
@@ -68,64 +70,54 @@ public class BoardController {
 	}
 	
 	@PostMapping("/board/removeBoard")
-	public String removeBoard(
-							@RequestParam(name = "boardNo") int boardNo,
-							@RequestParam(name = "memberId") String memberId) {
-//		삭제할 데이터 셋팅
-		Board board = new Board();
-		board.setBoardNo(boardNo);
-		board.setMemberId(memberId);
-		int row = boardService.removeBoard(board);
+	public String removeBoard(HttpServletRequest request, Board board) {
+		String path = request.getServletContext().getRealPath("/upload/");
+		int row = boardService.removeBoard(board, path);
 		log.debug("removeBoard row : " + row);
 		return "redirect:/board/boardList";
 	}
 	
+//	파일 삭제
+	@GetMapping("/board/removeFile")
+	public String removeFile(HttpServletRequest request, Boardfile boardfile) {
+		String path = request.getServletContext().getRealPath("/upload/");
+		log.debug(boardfile.getBoardfileNo() + " <- boardfileNo");
+		boardfile = boardService.getBoardfileOne(boardfile);
+		int row = boardService.removeFile(boardfile, path);
+		log.debug("removeBoard row : " + row);
+		return "redirect:/board/modifyBoard?boardNo=" + boardfile.getBoardNo();
+	}
+	
 //	게시글 수정
 	@GetMapping("/board/modifyBoard")
-	public String modifyBoard(Model model,
-							@RequestParam(name = "boardNo") int boardNo) {
-//		boardNo 셋팅
-		Board board = new Board();
-		board.setBoardNo(boardNo);
+	public String modifyBoard(Model model, Board board) {
 		board = boardService.getBoardOne(board);
+		List<Boardfile> boardfileList = boardService.getBoardfile(board);
 		
 //		출력할 board 저장
 		model.addAttribute("board", board);
+		model.addAttribute("boardfileList", boardfileList);
 		return "/board/modifyBoard";
 	}
 	
 	@PostMapping("/board/modifyBoard")
-	public String modifyBoard(
-							@RequestParam(name = "boardNo") int boardNo,
-							@RequestParam(name = "localName") String localName,
-							@RequestParam(name = "boardTitle") String boardTitle,
-							@RequestParam(name = "boardContent") String boardContent,
-							@RequestParam(name = "memberId") String memberId
-							) {
-//		수정된 데이터 셋팅
-		Board board = new Board();
-		board.setBoardNo(boardNo);
-		board.setLocalName(localName);
-		board.setBoardTitle(boardTitle);
-		board.setBoardContent(boardContent);
-		board.setMemberId(memberId);
-		int row = boardService.modifyBoard(board);
+	public String modifyBoard(HttpServletRequest request, Board board) {
+		String path = request.getServletContext().getRealPath("/upload/");
+		int row = boardService.modifyBoard(board, path);
 		log.debug("modifyBoard row : " + row);
-		return "redirect:/board/boardOne?boardNo=" + boardNo;
+		return "redirect:/board/boardOne?boardNo=" + board.getBoardNo();
 	}
 	
 	
 //	게시글 하나 출력
 	@GetMapping("/board/boardOne")
-	public String getBoardOne(Model model,
-							@RequestParam(name = "boardNo") int boardNo) {
-//		boardNo 셋팅
-		Board board = new Board();
-		board.setBoardNo(boardNo);
-		board = boardService.getBoardOne(board);
+	public String getBoardOne(Model model, Board board) {
 		
+		board = boardService.getBoardOne(board);
+		List<Boardfile> boardfileList = boardService.getBoardfile(board);
 //		출력할 board 저장
 		model.addAttribute("board", board);
+		model.addAttribute("boardfileList", boardfileList);
 		return "/board/boardOne";
 	}
 //	게시클 리스트 출력

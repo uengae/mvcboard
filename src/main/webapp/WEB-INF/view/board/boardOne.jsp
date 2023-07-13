@@ -36,6 +36,26 @@
 			<th>updatedate</th>
 			<td>${b.updatedate}</td>
 		</tr>
+		<tr>
+			<th>img</th>
+			<td>
+			<c:forEach var="bfl" items="${boardfileList}">
+			<c:if test="${bfl.filetype.equals(\"image/jpeg\")}">
+					<img width="150px" height="150px" src="/upload/${bfl.saveFilename}">
+			</c:if>
+			</c:forEach>
+			</td>
+		</tr>
+		<tr>
+			<th>fileName</th>
+			<td>
+			<c:forEach var="bfl" items="${boardfileList}">
+				<div>
+					${bfl.originFilename}
+				</div>
+			</c:forEach>
+			</td>
+		</tr>
 	</table>
 </body>
 </html>

@@ -5,11 +5,31 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+	<script>
+		$(document).ready(function(){
+			$('#addFileBtn').click(function(){
+				if($('.file').last().val() == ''){
+					alert('빈 파일업로드 태그가 있읍니다.');
+				} else {
+					let inputName = "multipartFile";
+					$('#addFile').append("<div><input type=\"file\" name="
+										+ inputName
+										+ " class=\"file\"></div>");
+				}
+			})
+			$('#removeFileBtn').click(function(){
+				if($('.file').length != 1){
+					$('.file').last().remove();
+				}
+			})
+		})
+	</script>
 </head>
 <body>
 	<h1>modifyBoard</h1>
 	<c:set var="b" value="${board}"></c:set>
-	<form action="/board/modifyBoard" method="post">
+	<form action="/board/modifyBoard" enctype="multipart/form-data" method="post" id="modifyBoard">
 	<input type="hidden" name="boardNo" value="${b.boardNo}">
 		<table>
 			<tr>
@@ -36,8 +56,35 @@
 					<input type="text" readonly="readonly" name="memberId" value="${b.memberId}">
 				</td>
 			</tr>
+			<tr>
+				<th>img</th>
+				<td>
+				<c:forEach var="bfl" items="${boardfileList}">
+				<c:if test="${bfl.filetype.equals(\"image/jpeg\")}">
+						<img width="150px" height="150px" src="/upload/${bfl.saveFilename}">
+				</c:if>
+				</c:forEach>
+				</td>
+			</tr>
+			<tr>
+				<th>modifyFile</th>
+				<td>
+				<c:forEach var="bfl" items="${boardfileList}">
+						<div>
+							${bfl.originFilename}
+						</div>
+						<div>
+							<a href="/board/removeFile?boardfileNo=${bfl.boardfileNo}">삭제</a>
+							<input type="file" class="preFile" name="preMultipartFile">
+						</div>
+				</c:forEach>
+					<div id="addFile"></div>
+				</td>
+			</tr>
 		</table>
-		<button type="submit">수정</button>
+		<button id="addFileBtn" type="button">파일 추가</button>
+		<button id="removeFileBtn" type="button">파일 제거</button>
+		<button type="submit" form="modifyBoard">수정</button>
 	</form>
 </body>
 </html>
