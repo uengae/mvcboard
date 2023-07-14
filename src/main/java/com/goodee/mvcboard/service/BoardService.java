@@ -29,6 +29,10 @@ public class BoardService {
 	@Autowired
 	private BoardfileMapper boardfileMapper;
 	
+	public List<Map<String, Object>> getLocalNameList(){
+		return boardMapper.selectLocalNameList();
+	}
+	
 	public int addBoard(Board board, String path) {
 		int row = boardMapper.insertBoard(board);
 		log.debug(board.getBoardNo() + " <- boardNo");
