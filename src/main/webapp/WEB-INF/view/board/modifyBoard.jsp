@@ -72,10 +72,7 @@
 				<c:forEach var="bfl" items="${boardfileList}">
 						<div>
 							${bfl.originFilename}
-						</div>
-						<div>
 							<a href="/board/removeFile?boardfileNo=${bfl.boardfileNo}">삭제</a>
-							<input type="file" class="preFile" name="preMultipartFile">
 						</div>
 				</c:forEach>
 					<div id="addFile"></div>
