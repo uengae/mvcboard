@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.goodee.mvcboard.service.BoardService;
+import com.goodee.mvcboard.service.SignService;
 import com.goodee.mvcboard.vo.Board;
 import com.goodee.mvcboard.vo.Boardfile;
 
@@ -23,6 +24,9 @@ import lombok.extern.slf4j.Slf4j;
 public class BoardController {
 	@Autowired
 	private BoardService boardService;
+	
+	@Autowired
+	private SignService signService;
 	
 	/*
     ANSI_RESET = "\u001B[0m";
@@ -52,10 +56,10 @@ public class BoardController {
 
 	@PostMapping("/board/addBoard")
 //	매개값으로 request객체를 받는다 <- request api 직접호출하귀위함
-	public String addBoard(HttpServletRequest request,Board board) { 
-		String path = request.getServletContext().getRealPath("/upload/");
-		int row = boardService.addBoard(board, path);
-		log.debug("addBoard row : " + row);
+	public String addBoard(HttpServletRequest request, Board board) { 
+		String uploadPath = request.getServletContext().getRealPath("/upload/");
+		int boardRow = boardService.addBoard(board, uploadPath);
+		log.debug("addBoard boardRow : " + boardRow);
 		return "redirect:/board/boardList";
 	}
 	
