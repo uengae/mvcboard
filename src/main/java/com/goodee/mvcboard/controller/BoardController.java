@@ -25,9 +25,6 @@ public class BoardController {
 	@Autowired
 	private BoardService boardService;
 	
-	@Autowired
-	private SignService signService;
-	
 	/*
     ANSI_RESET = "\u001B[0m";
     ANSI_BLACK = "\u001B[30m";
