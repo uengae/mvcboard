@@ -8,6 +8,7 @@
 </head>
 <body>
 	<h1>게시판</h1>
+	<!-- 서명추가 추가 -->
 	<div>
 		<a href="/board/addBoard">추가</a>
 	</div>

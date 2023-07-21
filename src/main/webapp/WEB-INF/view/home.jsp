@@ -8,6 +8,7 @@
 </head>
 <body>
 	<h1>HOME</h1>
+	<!-- 로그인 -->
 	<div>
 		<a href="/board/boardList">게시판</a>
 	</div>
